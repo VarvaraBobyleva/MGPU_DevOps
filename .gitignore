@@ -1,4 +1,14 @@
+# Системные файлы macOS
 .DS_Store
-data/
+
+# Данные (исключаем все форматы данных)
+data/*.csv
+data/*.xlsx
+data/*.json
+
+# Python
 __pycache__/
+*.pyc
 .venv/
+env/
+.ipynb_checkpoints/
