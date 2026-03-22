@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crypto-app
+  template:
+    metadata:
+      labels:
+        app: crypto-app
+    spec:
+      initContainers: # Проверка готовности БД
+      - name: wait-for-db
+        image: busybox
+        command: ['sh', '-c', 'until nc -z db-service 5432; do echo waiting for db; sleep 2; done;']
+      containers:
+      - name: dashboard
+        image: crypto-dashboard:v1
+        ports:
+        - containerPort: 8501
+        env: 
+        - name: DB_HOST
+          value: "db-service" 
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: DB_USER
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: DB_NAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: crypto-secrets
+              key: DB_PASSWORD
+        resources: # Ограничения (из варианта)
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: crypto-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8501
+  type: NodePort

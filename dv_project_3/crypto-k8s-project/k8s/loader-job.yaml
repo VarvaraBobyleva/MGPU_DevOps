@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: loader-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: loader
+        image: crypto-loader:v1
+        env:
+        - name: DB_HOST
+          value: "db-service"
+        - name: DB_NAME
+          valueFrom: { configMapKeyRef: { name: crypto-config, key: DB_NAME } }
+        - name: DB_USER
+          valueFrom: { configMapKeyRef: { name: crypto-config, key: DB_USER } }
+        - name: DB_PASSWORD
+          valueFrom: { secretKeyRef: { name: crypto-secrets, key: DB_PASSWORD } }
+      restartPolicy: OnFailure
