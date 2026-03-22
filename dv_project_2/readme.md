@@ -38,6 +38,7 @@
     - Использованы `named volumes` для БД (данные не теряются).
     - Реализован `bind mount` для папки с сырыми данными (`readonly`).
 - **Healthcheck**: Приложение и загрузчик ждут готовности БД перед стартом.
+![Healthcheck работы](./screenshots/Healthcheck.png)
 
 ---
 
