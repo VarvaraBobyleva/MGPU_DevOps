@@ -46,6 +46,7 @@
 1. Склонируйте репозиторий.
 2. Создайте файл `.env` (см. `.env.example`).
 3. Положите датасет в `data/crypto_data.csv`.
-4. Выполните запуск:
+  > **Примечание:** Готовый датасет можно скачать по ссылке <a href="https://www.kaggle.com/datasets/yamqwe/cryptocurrency-extra-data-bitcoin">
+5. Выполните запуск:
    ```bash
    docker-compose up --build
