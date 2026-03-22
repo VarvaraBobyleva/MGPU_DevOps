@@ -32,6 +32,7 @@
   - `db-service` (ClusterIP) — внутренняя связь.
   - `app-service` (NodePort) — доступ к дашборду извне.
 - Все YAML-файлы валидны и применены одной командой `kubectl apply -f k8s/`.
+
 [apply](./screens/apply.png)
 
 ### 2. Конфигурация и Безопасность
@@ -54,6 +55,7 @@
   - `cpu`: 500m (limit) / 100m (request)
   - `memory`: 256Mi (limit) / 128Mi (request)
   *Это предотвращает "поедание" ресурсов всего кластера тяжелыми аналитическими запросами.*
+
 [Resource_Quotas](./screens/Resource_Quotas.png)
 
 ---
