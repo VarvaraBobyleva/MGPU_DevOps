@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  loader:
+    build:
+      context: ./analytics_app
+      dockerfile: Dockerfile
+    # Переопределяем команду для загрузчика
+    command: python data_loader.py
+    volumes:
+      - ./data:/app/raw_data:ro  # Bind mount (только чтение)
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - backend-network
+
+  app:
+    build:
+      context: ./analytics_app
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8501:8501"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
+
+volumes:
+  db_data:
