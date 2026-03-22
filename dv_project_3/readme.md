@@ -33,7 +33,7 @@
   - `app-service` (NodePort) — доступ к дашборду извне.
 - Все YAML-файлы валидны и применены одной командой `kubectl apply -f k8s/`.
 
-[apply](./screens/apply.png)
+![apply](./screens/apply.png)
 
 ### 2. Конфигурация и Безопасность
 Полный отказ от хардкода переменных окружения:
@@ -56,7 +56,7 @@
   - `memory`: 256Mi (limit) / 128Mi (request)
   *Это предотвращает "поедание" ресурсов всего кластера тяжелыми аналитическими запросами.*
 
-[Resource_Quotas](./screens/Resource_Quotas.png)
+![Resource_Quotas](./screens/Resource_Quotas.png)
 
 ---
 
@@ -67,7 +67,7 @@
 # Команда для проверки всех компонентов
 kubectl get all
 ```
-[get_all](./screens/get_all.png)
+![get_all](./screens/get_all.png)
 
 ---
 
@@ -86,5 +86,5 @@ kubectl get all
 ### 3. Итоговый результат
 * Создана **масштабируемая аналитическая платформа** в среде Kubernetes.
 * Подтверждена работоспособность всей цепочки: **Loader (Job)** успешно наполняет базу, **DB (PVC)** сохраняет данные, а **App (Deployment)** корректно их визуализирует.
-[demo](./screens/demo.gif)
+![demo](./screens/demo.gif)
 > **Примечание:** Если скринкаст не запускается, вы можете найти его в папке `/screenshots/demo.mp4`.
