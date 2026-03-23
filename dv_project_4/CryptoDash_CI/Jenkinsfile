@@ -14,7 +14,7 @@ pipeline {
                 echo 'Checking for vulnerable dependencies...'
                 // Шаг 2: Установка pip-audit и проверка безопасности библиотек
                 // Мы специально добавим старую библиотеку, чтобы этот шаг "заругался"
-                sh 'pip install pip-audit --break-system-packages && pip-audit -r dv_project_4/CryptoDash_CI/requirements.txt'
+                sh 'pip install pip-audit --break-system-packages && pip-audit --local -r dv_project_4/CryptoDash_CI/requirements.txt'
             }
         }
 
