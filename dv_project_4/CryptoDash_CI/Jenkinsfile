@@ -33,13 +33,26 @@ pipeline {
             }
         }
 
-		 stage('Deploy') {
-    	    steps {
-        	    echo 'Deploying: restarting container...'
-        	    // Останавливаем старый контейнер, если он был, и запускаем новый
-        	    sh "docker stop crypto-app || true && docker rm crypto-app || true"
-        	    sh "docker run -d -p 8501:8501 --name crypto-app crypto-dash:latest"
-   	        }
-	    }
+		stage('ETL: Load Data') {
+            steps {
+                echo 'Running ETL script...'
+                // Запускаем скрипт загрузки данных прямо в контейнере Jenkins
+                sh "python3 dv_project_4/CryptoDash_CI/data_loader.py"
+            }
+        }
+
+		stage('Deploy App') {
+            steps {
+                echo 'Deploying Dashboard with Environment Variables...'
+                sh "docker stop crypto-app || true && docker rm crypto-app || true"
+                
+                // Используем --env-file, чтобы подтянуть все пароли из .env
+                sh """
+                docker run -d -p 8501:8501 \
+                --env-file dv_project_4/CryptoDash_CI/.env \
+                --name crypto-app crypto-dash:latest
+                """
+            }
+        }
     }
 }
