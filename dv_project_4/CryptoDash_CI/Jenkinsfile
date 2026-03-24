@@ -18,15 +18,6 @@ pipeline {
             }
         }
 
-	    stage('Deploy') {
-    	    steps {
-        	    echo 'Deploying: restarting container...'
-        	    // Останавливаем старый контейнер, если он был, и запускаем новый
-        	    sh "docker stop crypto-app || true && docker rm crypto-app || true"
-        	    sh "docker run -d --name crypto-app crypto-dash:latest"
-   	        }
-	    }
-
         stage('Build Docker Image') {
             steps {
                 echo 'Building Crypto Dash Image...'
@@ -42,5 +33,14 @@ pipeline {
                 sh 'docker run --rm crypto-dash:latest python --version'
             }
         }
+
+		 stage('Deploy') {
+    	    steps {
+        	    echo 'Deploying: restarting container...'
+        	    // Останавливаем старый контейнер, если он был, и запускаем новый
+        	    sh "docker stop crypto-app || true && docker rm crypto-app || true"
+        	    sh "docker run -d --name crypto-app crypto-dash:latest"
+   	        }
+	    }
     }
 }
