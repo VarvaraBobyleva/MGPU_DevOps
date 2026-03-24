@@ -74,10 +74,10 @@ pipeline {
             }
         }
 
-		stage('ETL: Load Data') {
+		stage('Deploy Dashboard') {
             steps {
-                echo 'Loading data into the NEW database...'
-                // 3. Запускаем Дашборд, подключая его к этой новой базе
+                echo 'Running Dashboard...'
+                // Запускаем Дашборд, подключая его к новой базе через внутреннюю сеть Docker (--link)
                 sh """
                 docker run -d --name crypto-app -p 8501:8501 --link crypto-db:db_server \
                   -e DB_HOST=db_server \
