@@ -48,9 +48,9 @@
 Библиотека обновлена до безопасной версии `requests==2.32.4`.
 * **Результат:** Стадия пройдена успешно («No known vulnerabilities found»), пайплайн продолжил выполнение до стадии деплоя.
 
-![Qual](screens/jenk_faild_31v.png)
-
 ![Qual_suc](screens/jenks_pass.png)
+
+![Qual_g](screens/jenk_s.png)
 
 ---
 
