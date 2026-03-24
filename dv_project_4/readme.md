@@ -14,7 +14,7 @@
 * **Конфигурация запуска:** Выполнен проброс Docker-сокета (`/var/run/docker.sock`) для управления хостовым Docker и монтирование тома `jenkins_home`.
 * **Доступ:** Интерфейс доступен по адресу `http://localhost:8080`.
 
-![Интерфейс_Jenkins](dv_project_4/screens/inter_jen.png)
+![Интерфейс_Jenkins](screens/inter_jen.png)
 
 > **Результат:** Сервер успешно поднят, плагины установлены, создана задача типа "Pipeline" под названием `CryptoDash_CI`.
 
