@@ -16,6 +16,7 @@ def load_csv_to_db():
         
         # Подключаемся к БД
         conn = psycopg2.connect(
+            port=os.getenv('DB_PORT', '5432'),
             dbname=os.getenv('DB_NAME'),
             user=os.getenv('DB_USER'),
             password=os.getenv('DB_PASS'),
