@@ -40,19 +40,6 @@ pipeline {
             }
         }
 
-		stage('ETL: Load Data') {
-            steps {
-                echo 'Installing dependencies and running ETL...'
-                sh """
-                # Устанавливаем библиотеку для работы с БД (используем binary версию, она проще ставится)
-                pip install --break-system-packages psycopg2-binary pandas
-                
-                # Запускаем сам скрипт загрузки
-                python3 dv_project_4/CryptoDash_CI/data_loader.py
-                """
-            }
-        }
-
 		stage('Deploy Infrastructure') {
             steps {
                 echo 'Starting Fresh Database and App...'
@@ -70,16 +57,33 @@ pipeline {
                 
                 # Даем базе 10 секунд, чтобы проснуться
                 sleep 10
+				"""
+			}
+		}
+
+		stage('ETL: Load Data') {
+            steps {
+                echo 'Installing dependencies and running ETL...'
+                sh """
+                # Устанавливаем библиотеку для работы с БД (используем binary версию, она проще ставится)
+                pip install --break-system-packages psycopg2-binary pandas
                 
-                # 3. Запускаем Дашборд, подключая его к этой новой базе
-                docker run -d --name crypto-app \
-                  -p 8501:8501 \
-                  --link crypto-db:db_host \
-                  -e DB_HOST=db_host \
-                  -e DB_PORT=5432 \
+                # Запускаем сам скрипт загрузки
+                python3 dv_project_4/CryptoDash_CI/data_loader.py
+                """
+            }
+        }
+
+		stage('ETL: Load Data') {
+            steps {
+                echo 'Loading data into the NEW database...'
+                // 3. Запускаем Дашборд, подключая его к этой новой базе
+                sh """
+                docker run -d --name crypto-app -p 8501:8501 --link crypto-db:db_server \
+                  -e DB_HOST=db_server \
                   -e DB_NAME=${DB_NAME} \
                   -e DB_USER=${DB_USER} \
-                  -e DB_PASS=${DB_PASS} \
+                  -e DB_PASSWORD=${DB_PASS} \
                   crypto-dash:latest
                 """
             }
