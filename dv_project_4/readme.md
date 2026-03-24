@@ -60,8 +60,8 @@
 * **Команда сборки:** `docker build -t crypto-dash:latest dv_project_4/CryptoDash_CI/`
 * **Проверка:** Образ успешно создается и отображается в локальном списке Docker-образов хостовой машины.
 ```bash
-# Проверка наличия образа в терминале:
-docker images | grep crypto-dash
+# Проверка запуска контейнера в терминале:
+docker ps
 ```
 ![docer](screens/cd-up.png)
 
