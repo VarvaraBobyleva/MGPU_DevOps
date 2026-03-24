@@ -63,12 +63,16 @@ pipeline {
 
 		stage('ETL: Load Data') {
             steps {
-                echo 'Installing dependencies and running ETL...'
+                echo 'Loading data into the NEW database...'
                 sh """
-                # Устанавливаем библиотеку для работы с БД (используем binary версию, она проще ставится)
+				# Устанавливаем библиотеку для работы с БД (используем binary версию, она проще ставится)
                 pip install --break-system-packages psycopg2-binary pandas
-                
-                # Запускаем сам скрипт загрузки
+                # Указываем Jenkins, куда именно заливать данные
+                export DB_HOST=host.docker.internal
+                export DB_PORT=5433
+                export DB_NAME=${DB_NAME}
+                export DB_USER=${DB_USER}
+                export DB_PASS=${DB_PASS}
                 python3 dv_project_4/CryptoDash_CI/data_loader.py
                 """
             }
