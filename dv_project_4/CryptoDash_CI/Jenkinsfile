@@ -35,9 +35,14 @@ pipeline {
 
 		stage('ETL: Load Data') {
             steps {
-                echo 'Running ETL script...'
-                // Запускаем скрипт загрузки данных прямо в контейнере Jenkins
-                sh "python3 dv_project_4/CryptoDash_CI/data_loader.py"
+                echo 'Installing dependencies and running ETL...'
+                sh """
+                # Устанавливаем библиотеку для работы с БД (используем binary версию, она проще ставится)
+                pip install --break-system-packages psycopg2-binary pandas
+                
+                # Запускаем сам скрипт загрузки
+                python3 dv_project_4/CryptoDash_CI/data_loader.py
+                """
             }
         }
 
