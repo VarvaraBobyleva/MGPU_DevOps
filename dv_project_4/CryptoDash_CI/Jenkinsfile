@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-	/ Подключаем созданные секреты к переменным окружения
+	// Подключаем созданные секреты к переменным окружения
     environment {
         DB_USER = credentials('DB_USER_SECRET')
         DB_PASS = credentials('DB_PASS_SECRET')
