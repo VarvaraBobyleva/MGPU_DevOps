@@ -9,19 +9,11 @@ pipeline {
             }
         }
 
-        stage('Security Check (Quality Gate)') {
+		stage('Security Check (Quality Gate)') {
             steps {
-                echo 'Installing dependencies and auditing...'
-                sh """
-                # 1. Устанавливаем сами библиотеки из файла
-                pip install --break-system-packages -r dv_project_4/CryptoDash_CI/requirements.txt
-                
-                # 2. Устанавливаем pip-audit
-                pip install --break-system-packages pip-audit
-                
-                # 3. Запускаем аудит всей системы (без создания виртуалок)
-                pip-audit
-                """
+                echo 'Auditing only project requirements...'
+                // Устанавливаем pip-audit и Флаг --no-deps поможет не зарываться в системные библиотеки
+                sh "pip install pip-audit --break-system-packages && pip-audit --no-deps -r dv_project_4/CryptoDash_CI/requirements.txt"
             }
         }
 
