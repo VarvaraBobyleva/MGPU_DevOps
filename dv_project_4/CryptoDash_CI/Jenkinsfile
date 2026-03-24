@@ -78,14 +78,14 @@ pipeline {
             steps {
                 echo 'Running Dashboard...'
                 // Запускаем Дашборд, подключая его к новой базе через внутреннюю сеть Docker (--link)
-                sh """
+                sh '''
                 docker run -d --name crypto-app -p 8501:8501 --link crypto-db:db_server \
                   -e DB_HOST=db_server \
                   -e DB_NAME=${DB_NAME} \
                   -e DB_USER=${DB_USER} \
                   -e DB_PASSWORD=${DB_PASS} \
                   crypto-dash:latest
-                """
+                '''
             }
         }
     }
