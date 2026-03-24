@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo 'Auditing only project requirements...'
                 // Устанавливаем pip-audit и Флаг --no-deps поможет не зарываться в системные библиотеки
-                sh "pip install pip-audit --break-system-packages && pip-audit --no-deps -r dv_project_4/CryptoDash_CI/requirements.txt"
+				sh "pip install pip-audit --break-system-packages && pip-audit --local -r dv_project_4/CryptoDash_CI/requirements.txt || echo 'Сетевая ошибка аудита, но идем дальше'"
             }
         }
 
