@@ -13,15 +13,24 @@ pipeline {
             steps {
                 echo 'Checking for vulnerable dependencies...'
                 // Шаг 2: Установка pip-audit и проверка безопасности библиотек
-                // Мы специально добавим старую библиотеку, чтобы этот шаг "заругался"
-                sh 'pip install pip-audit --break-system-packages && pip-audit --local -r dv_project_4/CryptoDash_CI/requirements.txt'
+                // Cпециально добавим старую библиотеку, чтобы этот шаг "заругался"
+                sh 'pip install pip-audit --break-system-packages && pip-audit --local -r dv_project_4/CryptoDash_CI/requirements.txt
             }
         }
+
+	    stage('Deploy') {
+    	    steps {
+        	    echo 'Deploying: restarting container...'
+        	    // Останавливаем старый контейнер, если он был, и запускаем новый
+        	    sh "docker stop crypto-app || true && docker rm crypto-app || true"
+        	    sh "docker run -d --name crypto-app crypto-dash:latest"
+   	        }
+	    }
 
         stage('Build Docker Image') {
             steps {
                 echo 'Building Crypto Dash Image...'
-                // Шаг 3: Сборка образа. Указываем путь к папке с Dockerfile
+                // Шаг 3: Сборка образа.
                 sh 'docker build -t crypto-dash:latest ./CryptoDash_CI/dockerfile'
             }
         }
@@ -35,4 +44,3 @@ pipeline {
         }
     }
 }
-
