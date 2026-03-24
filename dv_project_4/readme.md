@@ -40,17 +40,17 @@
 В файл `requirements.txt` была намеренно добавлена уязвимая версия библиотеки `requests==2.20.0`. 
 * **Результат:** Пайплайн остановил сборку на стадии `Security Check`. В логах обнаружено 17 известных уязвимостей. Сборка помечена статусом **FAILURE**.
 
-![Qual_fail](dv_project_4/screens/jenk_faild_t.png)
+![Qual_fail](screens/jenk_faild_t.png)
 
-![Qual_fail_g](dv_project_4/screens/jenk_faild_v.png)
+![Qual_fail_g](screens/jenk_faild_v.png)
 
 ### Сценарий 2: Успешный запуск (Success)
 Библиотека обновлена до безопасной версии `requests==2.32.4`.
 * **Результат:** Стадия пройдена успешно («No known vulnerabilities found»), пайплайн продолжил выполнение до стадии деплоя.
 
-![Qual](dv_project_4/screens/jenk_faild_31v.png)
+![Qual](screens/jenk_faild_31v.png)
 
-![Qual_suc](dv_project_4/screens/jenks_pass.png)
+![Qual_suc](screens/jenks_pass.png)
 
 ---
 
@@ -63,7 +63,7 @@
 # Проверка наличия образа в терминале:
 docker images | grep crypto-dash
 ```
-![docer](dv_project_4/screens/cd-up.png)
+![docer](screens/cd-up.png)
 
 ---
 
