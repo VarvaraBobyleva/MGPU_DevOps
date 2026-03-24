@@ -22,7 +22,7 @@ pipeline {
             steps {
                 echo 'Building Crypto Dash Image...'
                 // Шаг 3: Сборка образа.
-                sh 'docker build -t crypto-dash:latest ./CryptoDash_CI/dockerfile'
+                sh 'docker build -t crypto-dash:latest dv_project_4/CryptoDash_CI/'
             }
         }
 
