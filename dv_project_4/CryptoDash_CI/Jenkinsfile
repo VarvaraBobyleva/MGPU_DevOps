@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+	/ Подключаем созданные секреты к переменным окружения
+    environment {
+        DB_USER = credentials('DB_USER_SECRET')
+        DB_PASS = credentials('DB_PASS_SECRET')
+        DB_NAME = credentials('DB_NAME_SECRET')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -50,8 +57,15 @@ pipeline {
             steps {
                 echo 'Deploying Dashboard with Environment Variables...'
                 sh "docker stop crypto-app || true && docker rm crypto-app || true"
-                // Используем --env-file, чтобы подтянуть все пароли из .env
-				sh "docker run -d -p 8501:8501 --add-host=host.docker.internal:host-gateway --name crypto-app -e DB_HOST=host.docker.internal -e DB_NAME=... -e DB_USER=... -e DB_PASS=... crypto-dash:latest"
+				// Используем переменные в команде запуска
+                sh """
+                docker run -d -p 8501:8501 --add-host=host.docker.internal:host-gateway --name crypto-app \
+                -e DB_HOST=host.docker.internal \
+                -e DB_NAME=${DB_NAME} \
+                -e DB_USER=${DB_USER} \
+                -e DB_PASS=${DB_PASS} \
+                crypto-dash:latest
+                """
             }
         }
     }
