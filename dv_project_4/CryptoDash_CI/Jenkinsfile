@@ -50,13 +50,8 @@ pipeline {
             steps {
                 echo 'Deploying Dashboard with Environment Variables...'
                 sh "docker stop crypto-app || true && docker rm crypto-app || true"
-                
                 // Используем --env-file, чтобы подтянуть все пароли из .env
-                sh """
-                docker run -d -p 8501:8501 \
-                --env-file dv_project_4/CryptoDash_CI/.env \
-                --name crypto-app crypto-dash:latest
-                """
+                sh "docker run -d -p 8501:8501 --name crypto-app -e DB_HOST=host.docker.internal -e DB_NAME=... -e DB_USER=... -e DB_PASS=... crypto-dash:latest"
             }
         }
     }
