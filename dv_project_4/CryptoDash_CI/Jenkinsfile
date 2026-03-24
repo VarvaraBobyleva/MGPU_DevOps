@@ -39,7 +39,7 @@ pipeline {
         	    echo 'Deploying: restarting container...'
         	    // Останавливаем старый контейнер, если он был, и запускаем новый
         	    sh "docker stop crypto-app || true && docker rm crypto-app || true"
-        	    sh "docker run -d --name crypto-app crypto-dash:latest"
+        	    sh "docker run -d -p 8501:8501 --name crypto-app crypto-dash:latest"
    	        }
 	    }
     }
