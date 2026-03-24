@@ -7,7 +7,7 @@ import time
 time.sleep(5)
 
 # Путь к файлу внутри контейнера (из bind mount)
-FILE_PATH = '/app/raw_data/crypto_data.csv'
+FILE_PATH = 'dv_project_4/CryptoDash_CI/data/crypto_data.csv'
 
 def load_csv_to_db():
     try:
