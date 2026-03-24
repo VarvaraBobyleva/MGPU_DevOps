@@ -11,10 +11,17 @@ pipeline {
 
         stage('Security Check (Quality Gate)') {
             steps {
-                echo 'Checking for vulnerable dependencies...'
-                // Шаг 2: Установка pip-audit и проверка безопасности библиотек
-                // Cпециально добавим старую библиотеку, чтобы этот шаг "заругался"
-                sh 'pip install pip-audit --break-system-packages && pip-audit --local -r dv_project_4/CryptoDash_CI/requirements.txt'
+                echo 'Installing dependencies and auditing...'
+                sh """
+                # 1. Устанавливаем сами библиотеки из файла
+                pip install --break-system-packages -r dv_project_4/CryptoDash_CI/requirements.txt
+                
+                # 2. Устанавливаем pip-audit
+                pip install --break-system-packages pip-audit
+                
+                # 3. Запускаем аудит всей системы (без создания виртуалок)
+                pip-audit
+                """
             }
         }
 
